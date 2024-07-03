@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: prodcrmsordersystem.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_9ba37b4114df466f8c06a6f217ca0efa }}/latest:${{ github.sha }}
+        tags: prodcrmsordersystem.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_9ba37b4114df466f8c06a6f217ca0efa }}/microservicecustomer:${{ github.sha }}
         file: ./Microservice.Customer.Address.Api/Dockerfile
 
   deploy:
@@ -48,4 +48,4 @@ jobs:
         app-name: 'prod-ap-ms-order-customer-address'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_e42f1a66b6534935b0effe263d5034d9 }}
-        images: 'prodcrmsordersystem.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_9ba37b4114df466f8c06a6f217ca0efa }}/latest:${{ github.sha }}'
+        images: 'prodcrmsordersystem.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_9ba37b4114df466f8c06a6f217ca0efa }}/microservicecustomer:${{ github.sha }}'
