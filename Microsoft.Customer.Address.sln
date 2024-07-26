@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A0C78B00-5F9B-4217-91EF-9ACA79233165}"
 	ProjectSection(SolutionItems) = preProject
 		.env = .env
+		PostmanCollections\MOS_Customer_Address_Api_V1_postman_collection.json = PostmanCollections\MOS_Customer_Address_Api_V1_postman_collection.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microservice.Customer.Address.Api.Test.Unit", "Microservice.Customer.Address.Api.Test.Unit\Microservice.Customer.Address.Api.Test.Unit.csproj", "{3E630B10-48FE-4EEA-8EDE-42DD8FE3AA69}"
