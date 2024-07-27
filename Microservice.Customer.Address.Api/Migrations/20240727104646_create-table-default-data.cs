@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Microservice.Customer.Address.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class createpopulatetables : Migration
+    public partial class createtabledefaultdata : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -69,16 +69,8 @@ namespace Microservice.Customer.Address.Api.Migrations
                 columns: new[] { "Id", "AddressLine1", "AddressLine2", "AddressLine3", "CountryId", "County", "Created", "CustomerId", "LastUpdated", "Postcode", "TownCity" },
                 values: new object[,]
                 {
-                    { new Guid("0a077be6-59a1-4768-9c38-722caba15c3f"), "15 Avocet Road", "Frodingly", "", 3, "South Glamorgan", new DateTime(2024, 5, 7, 14, 47, 43, 71, DateTimeKind.Local).AddTicks(8461), new Guid("5ff79dfe-c1fa-4dd9-996f-bc96649d6dfc"), new DateTime(2024, 5, 7, 14, 47, 43, 71, DateTimeKind.Local).AddTicks(8463), "CF4 DET", "Cardiff" },
-                    { new Guid("1f65b6b3-031f-4c63-8d56-c8730b0a579b"), "23 Long Shank Road", "Bordly", "Lower Horton", 1, "West Yorkshire", new DateTime(2024, 5, 7, 14, 47, 43, 71, DateTimeKind.Local).AddTicks(8349), new Guid("aa1dc96f-3be5-41cd-8a1b-207284af3fdd"), new DateTime(2024, 5, 7, 14, 47, 43, 71, DateTimeKind.Local).AddTicks(8392), "HD6 TRF", "Horton" },
-                    { new Guid("335565df-cadf-457a-b15e-f6d2f564fef5"), "18 Curlew Street", "Bardslow", "", 4, "County Londonderry", new DateTime(2024, 5, 7, 14, 47, 43, 71, DateTimeKind.Local).AddTicks(8466), new Guid("ae55b0d1-ba02-41e1-9efa-9b4d4ac15eec"), new DateTime(2024, 5, 7, 14, 47, 43, 71, DateTimeKind.Local).AddTicks(8468), "DR4 GTY", "Derry" },
-                    { new Guid("62aba6d4-5e5c-4566-8d46-2503ee78145a"), "3 Osprey Street", "Mineton", "Manely", 4, "County Antrim", new DateTime(2024, 5, 7, 14, 47, 43, 71, DateTimeKind.Local).AddTicks(8443), new Guid("2385de72-2302-4ced-866a-fa199116ca6e"), new DateTime(2024, 5, 7, 14, 47, 43, 71, DateTimeKind.Local).AddTicks(8444), "BF2 PLD", "Belfast" },
-                    { new Guid("86193bba-ab21-49d7-9686-05e1c67df6b3"), "1 Sparrow Road", "Halthorpe", "", 3, "West Glamorgan", new DateTime(2024, 5, 7, 14, 47, 43, 71, DateTimeKind.Local).AddTicks(8438), new Guid("55b431ff-693e-4664-8f65-cfd8d0b14b1b"), new DateTime(2024, 5, 7, 14, 47, 43, 71, DateTimeKind.Local).AddTicks(8439), "SW4 NVD", "Swansea" },
-                    { new Guid("a0c1a0ad-1d59-4951-a6cd-2d26951465fd"), "9 Short Eared Owl Lane", "Coorly", "", 2, "Stirlingshire", new DateTime(2024, 5, 7, 14, 47, 43, 71, DateTimeKind.Local).AddTicks(8424), new Guid("af95fb7e-8d97-4892-8da3-5e6e51c54044"), new DateTime(2024, 5, 7, 14, 47, 43, 71, DateTimeKind.Local).AddTicks(8426), "ST4 VFR", "Stirling" },
-                    { new Guid("a3c18b53-aabd-4ce8-bac9-1e3458356a32"), "21 Golden Eagle Way", "Plorton", "Riddleworth", 1, "West Yorkshire", new DateTime(2024, 5, 7, 14, 47, 43, 71, DateTimeKind.Local).AddTicks(8471), new Guid("c95ba8ff-06a1-49d0-bc45-83f89b3ce820"), new DateTime(2024, 5, 7, 14, 47, 43, 71, DateTimeKind.Local).AddTicks(8472), "LS3 VFR", "Leeds" },
-                    { new Guid("d0718d52-b5bc-4861-894b-a8f25b0ec1fb"), "66 Seagull Way", "Limestone", "", 1, "Northamptonshire", new DateTime(2024, 5, 7, 14, 47, 43, 71, DateTimeKind.Local).AddTicks(8448), new Guid("47417642-87d9-4047-ae13-4c721d99ab48"), new DateTime(2024, 5, 7, 14, 47, 43, 71, DateTimeKind.Local).AddTicks(8450), "PE7 8TY", "Oundle" },
-                    { new Guid("e3c4e1f9-8ba9-4cc3-ad0a-69528bb1d0f4"), "4 Buzzard Lane", "Needleton", "Harlslon", 2, "Aberdeenshire", new DateTime(2024, 5, 7, 14, 47, 43, 71, DateTimeKind.Local).AddTicks(8457), new Guid("ff4d5a80-81e3-42e3-8052-92cf5c51e797"), new DateTime(2024, 5, 7, 14, 47, 43, 71, DateTimeKind.Local).AddTicks(8458), "AB3 DER", "Aberdeen" },
-                    { new Guid("e6484ab8-801e-4270-8825-359610e83365"), "33 Blackbird Lane", "Reaverson", "", 1, "Durham", new DateTime(2024, 5, 7, 14, 47, 43, 71, DateTimeKind.Local).AddTicks(8477), new Guid("f07e88ac-53b2-4def-af07-957cbb18523c"), new DateTime(2024, 5, 7, 14, 47, 43, 71, DateTimeKind.Local).AddTicks(8478), "PL3 ABF", "Easington" }
+                    { new Guid("724cbd34-3dff-4e2a-a413-48825f1ab3b9"), "Intergration_Test", "Intergration_Test", "Intergration_Test", 1, "Intergration_Test", new DateTime(2024, 7, 27, 11, 46, 45, 590, DateTimeKind.Local).AddTicks(9928), new Guid("6c84d0a3-0c0c-435f-9ae0-4de09247ee15"), new DateTime(2024, 7, 27, 11, 46, 45, 590, DateTimeKind.Local).AddTicks(9976), "HD6 TRF", "Intergration_Test" },
+                    { new Guid("b88ef4ce-739f-4c1b-b6d6-9d0727515de8"), "Intergration_Test2", "Intergration_Test2", "Intergration_Test2", 2, "Intergration_Test2", new DateTime(2024, 7, 27, 11, 46, 45, 591, DateTimeKind.Local).AddTicks(10), new Guid("929eaf82-e4fd-4efe-9cae-ce4d7e32d159"), new DateTime(2024, 7, 27, 11, 46, 45, 591, DateTimeKind.Local).AddTicks(12), "ST4 VFR", "Intergration_Test2" }
                 });
 
             migrationBuilder.CreateIndex(
