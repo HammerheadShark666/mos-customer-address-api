@@ -4,6 +4,7 @@ using Microservice.Customer.Address.Api.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Microservice.Customer.Address.Api.Migrations
 {
     [DbContext(typeof(CustomerAddressDbContext))]
-    partial class CustomerAddressDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240727104646_create-table-default-data")]
+    partial class createtabledefaultdata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
