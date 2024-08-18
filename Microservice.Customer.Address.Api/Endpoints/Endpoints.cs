@@ -18,7 +18,7 @@ public static class Endpoints
 {
     public static void ConfigureRoutes(this WebApplication app, ConfigurationManager configuration)
     {
-        var customerGroup = app.MapGroup("api/v{version:apiVersion}/customer-address").WithTags("customerAddress");
+        var customerGroup = app.MapGroup("v{version:apiVersion}/customer-addresses").WithTags("customerAddresses");
 
         customerGroup.MapGet("/{id}", [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] async ([FromRoute] Guid id,  [FromServices] IMediator mediator, ICustomerAddressHttpAccessor customerAddressHttpAccessor) =>
         {
@@ -37,7 +37,7 @@ public static class Endpoints
            Tags = new List<OpenApiTag> { new() { Name = "Microservice Customer System - Customers Address" } }
        });
 
-       customerGroup.MapGet("", [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] async ([FromServices] IMediator mediator, ICustomerAddressHttpAccessor customerAddressHttpAccessor) =>
+       customerGroup.MapGet("/logged-in", [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] async ([FromServices] IMediator mediator, ICustomerAddressHttpAccessor customerAddressHttpAccessor) =>
        {
            var result = await mediator.Send(new GetCustomerAddressesRequest(customerAddressHttpAccessor.CustomerId));
            return result == null ? Results.NotFound() : Results.Ok(result);
