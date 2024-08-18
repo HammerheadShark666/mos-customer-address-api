@@ -8,10 +8,10 @@
   },
   "item": [
     {
-      "name": "Authorization",
+      "name": "Authentication",
       "item": [
         {
-          "name": "{{authorization_url}}/api/{version}/login",
+          "name": "{{authentication_url}}/{version}/login",
           "event": [
             {
               "listen": "test",
@@ -46,77 +46,18 @@
               }
             },
             "url": {
-              "raw": "https://{{authorization_url}}/api/v1/login",
+              "raw": "https://{{authentication_url}}/v1/login",
               "protocol": "https",
               "host": [
-                "{{authorization_url}}"
+                "{{authentication_url}}"
               ],
               "path": [
-                "api",
                 "v1",
                 "login"
               ]
             }
           },
-          "response": [
-            {
-              "name": "prod-ap-ms-order-authentication.azurewebsites.net/api/{version}/login",
-              "originalRequest": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\r\n  \"username\": \"2136-user@example.com\",\r\n  \"password\": \"Password#1\"\r\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "https://prod-ap-ms-order-authentication.azurewebsites.net/api/v1/login",
-                  "protocol": "https",
-                  "host": [
-                    "prod-ap-ms-order-authentication",
-                    "azurewebsites",
-                    "net"
-                  ],
-                  "path": [
-                    "api",
-                    "v1",
-                    "login"
-                  ]
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "Date",
-                  "value": "Thu, 11 Jul 2024 13:29:58 GMT"
-                },
-                {
-                  "key": "Server",
-                  "value": "Kestrel"
-                },
-                {
-                  "key": "Transfer-Encoding",
-                  "value": "chunked"
-                },
-                {
-                  "key": "api-supported-versions",
-                  "value": "1"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"jwtToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImp0aSI6IjQyMzk1MzcwLTY5M2ItNGUxMi05MmNmLTA0OTc0MjkzYTJhMyIsImlhdCI6MTcyMDcwNDU5OCwiZXhwIjoxNzIwNzA4MTk4LCJpc3MiOiJNb3NPcmRlclN5c3RlbTQ0IzMiLCJhdWQiOiJtaWNyb3NlcnZpY2VvcmRlcnN5c3RlbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiODFiZDJjZWEtMjg4ZC00NDM0LWIyMTUtOGNlOWRlNzViMTA3In0.RU501vps3VtUj8nXgilZ6772UWoeX5ypdcl06f5DGWE\"\n}"
-            }
-          ]
+          "response": []
         }
       ]
     },
@@ -124,7 +65,7 @@
       "name": "Customer Address",
       "item": [
         {
-          "name": "{{customer_address_url}}/api/{version}/customer-address",
+          "name": "{{customer_address_url}}/{version}/customer-address/logged-in",
           "event": [
             {
               "listen": "test",
@@ -153,15 +94,15 @@
               }
             ],
             "url": {
-              "raw": "https://{{customer_address_url}}/api/v1/customer-address",
+              "raw": "https://{{customer_address_url}}/v1/customer-addresses/logged-in",
               "protocol": "https",
               "host": [
                 "{{customer_address_url}}"
               ],
               "path": [
-                "api",
                 "v1",
-                "customer-address"
+                "customer-addresses",
+                "logged-in"
               ]
             }
           },
