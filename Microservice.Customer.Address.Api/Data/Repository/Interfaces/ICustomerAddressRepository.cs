@@ -8,5 +8,6 @@ public interface ICustomerAddressRepository
     Task<List<Domain.CustomerAddress>> ByCustomerAsync(Guid customerId);
     Task<Domain.CustomerAddress> ByIdAsync(Guid customerId, Guid id);
     Task<bool> ExistsAsync(Guid id);
+    Task<bool> ExistsAsync(Guid customerId, Guid addressId);
     Task<bool> HasAddressesAsync(Guid customerId);
 }
