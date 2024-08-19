@@ -12,7 +12,13 @@ public class UpdateCustomerAddressValidator : AbstractValidator<UpdateCustomerAd
     {
         _customerAddressRepository = customerAddressRepository;
         _countryRepository = countryRepository;
-         
+
+        RuleFor(address => address).MustAsync(async (address, cancellation) =>
+        {
+            return await CustomerAddressExists(address.CustomerId, address.Id);
+        })
+        .WithMessage(x => $"The customer address does not exists.");
+
         RuleFor(address => address.AddressLine1)
                    .NotEmpty().WithMessage("Address line 1 is required.")
                    .Length(1, 50).WithMessage("Address line 1 is length between 1 and 50.");
@@ -44,5 +50,10 @@ public class UpdateCustomerAddressValidator : AbstractValidator<UpdateCustomerAd
     protected async Task<bool> CountryExists(int id)
     {
         return await _countryRepository.ExistsAsync(id);
+    }
+
+    protected async Task<bool> CustomerAddressExists(Guid customerId, Guid addressId)
+    {
+        return await _customerAddressRepository.ExistsAsync(customerId, addressId);
     }
 }

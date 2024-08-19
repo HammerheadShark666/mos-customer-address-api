@@ -16,11 +16,11 @@ public class CountryRepository : ICountryRepository
 
     public async Task<List<Country>> AllSortedAsync()
     {
-        return await _context.Country.OrderBy(country => country.Name).ToListAsync();
+        return await _context.Country.AsNoTracking().OrderBy(country => country.Name).ToListAsync();
     }
 
     public async Task<bool> ExistsAsync(int countryId)
     {
-        return await _context.Country.AnyAsync(x => x.Id.Equals(countryId));
+        return await _context.Country.AsNoTracking().AnyAsync(x => x.Id.Equals(countryId));
     }
 }

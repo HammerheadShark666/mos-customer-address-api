@@ -12,7 +12,7 @@ public class CustomerAddressRepository(IDbContextFactory<CustomerAddressDbContex
     {
         await using var db = await _dbContextFactory.CreateDbContextAsync();
         await db.CustomerAddress.AddAsync(customerAddress);
-        db.SaveChanges();
+        await db.SaveChangesAsync();
 
         return customerAddress;
     }
@@ -21,18 +21,21 @@ public class CustomerAddressRepository(IDbContextFactory<CustomerAddressDbContex
     {
         await using var db = await _dbContextFactory.CreateDbContextAsync();
         db.CustomerAddress.Remove(customerAddress);
+        await db.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Api.Domain.CustomerAddress customerAddress)
     {
         await using var db = await _dbContextFactory.CreateDbContextAsync();
         db.CustomerAddress.Update(customerAddress);
+        await db.SaveChangesAsync();
     }
 
     public async Task<List<Api.Domain.CustomerAddress>> ByCustomerAsync(Guid customerId)
     {
         await using var db = await _dbContextFactory.CreateDbContextAsync();
         return await db.CustomerAddress
+                        .AsNoTracking()
                         .Where(o => o.CustomerId.Equals(customerId))
                         .Include(e => e.Country) 
                         .ToListAsync();
@@ -42,6 +45,7 @@ public class CustomerAddressRepository(IDbContextFactory<CustomerAddressDbContex
     {
         await using var db = await _dbContextFactory.CreateDbContextAsync();
         return await db.CustomerAddress
+                        .AsNoTracking()
                         .Where(o => o.Id.Equals(id) && o.CustomerId.Equals(customerId))
                         .Include(e => e.Country)
                         .SingleOrDefaultAsync();
@@ -50,12 +54,18 @@ public class CustomerAddressRepository(IDbContextFactory<CustomerAddressDbContex
     public async Task<bool> ExistsAsync(Guid id)
     {
         await using var db = await _dbContextFactory.CreateDbContextAsync();
-        return await db.CustomerAddress.AnyAsync(x => x.Id.Equals(id));
+        return await db.CustomerAddress.AsNoTracking().AnyAsync(x => x.Id.Equals(id));
+    }
+
+    public async Task<bool> ExistsAsync(Guid customerId, Guid addressId)
+    {
+        await using var db = await _dbContextFactory.CreateDbContextAsync();
+        return await db.CustomerAddress.AsNoTracking().AnyAsync(x => x.CustomerId.Equals(customerId) & x.Id.Equals(addressId));
     }
 
     public async Task<bool> HasAddressesAsync(Guid customerId)
     {
         await using var db = await _dbContextFactory.CreateDbContextAsync();
-        return await db.CustomerAddress.AnyAsync(x => x.CustomerId.Equals(customerId));
+        return await db.CustomerAddress.AsNoTracking().AnyAsync(x => x.CustomerId.Equals(customerId));
     }
 }
