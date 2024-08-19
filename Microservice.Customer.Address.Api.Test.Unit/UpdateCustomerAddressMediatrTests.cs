@@ -73,20 +73,8 @@ public class UpdateCustomerAddressMediatrTests
     { 
         var customerAddress = new CustomerAddress()
         {
-            AddressLine1 = addressLine1,
-            AddressLine2 = addressLine2,
-            AddressLine3 = addressLine3,
-            TownCity = townCity,
-            County = county,
-            Postcode = postcode,
-            CountryId = countryId,
-            Country = country
-        };
-
-        var customerAddressRecord = new CustomerAddress()
-        {
             Id = id,
-            CustomerId = customerId,
+            CustomerId = customerAddressId,
             AddressLine1 = addressLine1,
             AddressLine2 = addressLine2,
             AddressLine3 = addressLine3,
@@ -96,7 +84,7 @@ public class UpdateCustomerAddressMediatrTests
             CountryId = countryId,
             Country = country
         };
-
+         
         customerAddressHttpAccessorMock.Setup(x => x.CustomerId)
                 .Returns(customerId);
 
@@ -112,7 +100,7 @@ public class UpdateCustomerAddressMediatrTests
          
         customerAddressRepositoryMock
                 .Setup(x => x.ByIdAsync(customerId, id))
-                .Returns(Task.FromResult(customerAddressRecord));
+                .Returns(Task.FromResult(customerAddress));
 
         var updateCustomerAddressRequest = new UpdateCustomerAddressRequest(id, customerId, addressLine1, addressLine2, addressLine3, townCity, county, postcode, countryId);
 
@@ -120,6 +108,28 @@ public class UpdateCustomerAddressMediatrTests
         var expectedResult = "Customer address updated.";
 
         Assert.That(actualResult.message, Is.EqualTo(expectedResult));
+    }
+
+    [Test]
+    public void CustomerAddress_not_updated_address_not_found_return_exception_fail_message()
+    {  
+        countryRepositoryMock
+                .Setup(x => x.ExistsAsync(countryId))
+                .Returns(Task.FromResult(true));
+
+        customerAddressRepositoryMock
+                .Setup(x => x.ExistsAsync(customerId, id))
+                .Returns(Task.FromResult(false));
+
+        var updateCustomerAddressRequest = new UpdateCustomerAddressRequest(id, customerId, addressLine1, addressLine2, addressLine3, townCity, county, postcode, countryId);
+
+        var validationException = Assert.ThrowsAsync<ValidationException>(async () =>
+        {
+            await mediator.Send(updateCustomerAddressRequest);
+        });
+
+        Assert.That(validationException.Errors.Count, Is.EqualTo(1));
+        Assert.That(validationException.Errors.ElementAt(0).ErrorMessage, Is.EqualTo("The customer address does not exist."));
     }
 
     [Test]
