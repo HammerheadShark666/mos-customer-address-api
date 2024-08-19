@@ -89,39 +89,6 @@ public static class Endpoints
             Summary = "Update a customer address.",
             Description = "Updates a customer address.",
             Tags = new List<OpenApiTag> { new() { Name = "Microservice Customer System - Customers Address" } }
-        });
-
-
-
-
-
-
-
-        customerGroup.MapGet("/test", () =>
-        {
-            throw new Exception("Test Exception");
-            //var getCustomerResponse = await mediator.Send(new GetCustomerAddressRequest(id, customerAddressHttpAccessor.CustomerId));
-            //return Results.Ok(getCustomerResponse);
-        })
-        .Produces<GetCustomerAddressResponse>((int)HttpStatusCode.OK)
-        .Produces<BadRequestException>((int)HttpStatusCode.BadRequest)
-        .WithName("TestException")
-        .WithApiVersionSet(app.GetApiVersionSet())
-        .MapToApiVersion(new ApiVersion(1, 0))
-        .WithOpenApi(x => new OpenApiOperation(x)
-        {
-            Summary = "Test Exception.",
-            Description = "Test Exception.",
-            Tags = new List<OpenApiTag> { new() { Name = "Microservice Customer System - Test Exception" } }
-        });
-
-
-
-
-
-
-
-
-
+        }); 
     } 
 }
