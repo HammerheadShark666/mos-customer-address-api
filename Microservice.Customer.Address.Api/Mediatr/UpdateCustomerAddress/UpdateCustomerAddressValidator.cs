@@ -17,7 +17,7 @@ public class UpdateCustomerAddressValidator : AbstractValidator<UpdateCustomerAd
         {
             return await CustomerAddressExists(address.CustomerId, address.Id);
         })
-        .WithMessage(x => $"The customer address does not exists.");
+        .WithMessage(x => $"The customer address does not exist.");
 
         RuleFor(address => address.AddressLine1)
                    .NotEmpty().WithMessage("Address line 1 is required.")
