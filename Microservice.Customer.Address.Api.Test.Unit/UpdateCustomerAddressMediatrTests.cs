@@ -6,6 +6,7 @@ using Microservice.Customer.Address.Api.Helpers;
 using Microservice.Customer.Address.Api.Helpers.Interfaces;
 using Microservice.Customer.Address.Api.MediatR.UpdateCustomerAddress;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System.Reflection;
 
@@ -17,6 +18,7 @@ public class UpdateCustomerAddressMediatrTests
     private Mock<ICustomerAddressRepository> customerAddressRepositoryMock = new Mock<ICustomerAddressRepository>();
     private Mock<ICountryRepository> countryRepositoryMock = new Mock<ICountryRepository>();
     private Mock<ICustomerAddressHttpAccessor> customerAddressHttpAccessorMock = new Mock<ICustomerAddressHttpAccessor>();
+    private Mock<ILogger<UpdateCustomerAddressCommandHandler>> iLogger = new Mock<ILogger<UpdateCustomerAddressCommandHandler>>();
     private ServiceCollection services = new ServiceCollection();
     private ServiceProvider serviceProvider;
     private IMediator mediator;
@@ -42,6 +44,7 @@ public class UpdateCustomerAddressMediatrTests
         services.AddScoped<ICustomerAddressRepository>(sp => customerAddressRepositoryMock.Object);
         services.AddScoped<ICountryRepository>(sp => countryRepositoryMock.Object);
         services.AddScoped<ICustomerAddressHttpAccessor>(sp => customerAddressHttpAccessorMock.Object);
+        services.AddScoped<ILogger<UpdateCustomerAddressCommandHandler>>(sp => iLogger.Object);
         services.AddAutoMapper(Assembly.GetAssembly(typeof(UpdateCustomerAddressMapper)));
 
         serviceProvider = services.BuildServiceProvider();
@@ -68,8 +71,22 @@ public class UpdateCustomerAddressMediatrTests
     [Test]
     public async Task CustomerAddress_updated_return_success_message()
     { 
-        var customerAddress = new Customer.Address.Api.Domain.CustomerAddress()
+        var customerAddress = new CustomerAddress()
         {
+            AddressLine1 = addressLine1,
+            AddressLine2 = addressLine2,
+            AddressLine3 = addressLine3,
+            TownCity = townCity,
+            County = county,
+            Postcode = postcode,
+            CountryId = countryId,
+            Country = country
+        };
+
+        var customerAddressRecord = new CustomerAddress()
+        {
+            Id = id,
+            CustomerId = customerId,
             AddressLine1 = addressLine1,
             AddressLine2 = addressLine2,
             AddressLine3 = addressLine3,
@@ -89,6 +106,14 @@ public class UpdateCustomerAddressMediatrTests
         customerAddressRepositoryMock
                 .Setup(x => x.UpdateAsync(customerAddress));
 
+        customerAddressRepositoryMock
+                .Setup(x => x.ExistsAsync(customerId, id))
+                .Returns(Task.FromResult(true));
+         
+        customerAddressRepositoryMock
+                .Setup(x => x.ByIdAsync(customerId, id))
+                .Returns(Task.FromResult(customerAddressRecord));
+
         var updateCustomerAddressRequest = new UpdateCustomerAddressRequest(id, customerId, addressLine1, addressLine2, addressLine3, townCity, county, postcode, countryId);
 
         var actualResult = await mediator.Send(updateCustomerAddressRequest);
@@ -106,6 +131,10 @@ public class UpdateCustomerAddressMediatrTests
                 .Setup(x => x.ExistsAsync(countryId))
                 .Returns(Task.FromResult(false));
 
+        customerAddressRepositoryMock
+                .Setup(x => x.ExistsAsync(customerId, id))
+                .Returns(Task.FromResult(true));
+
         var updateCustomerAddressRequest = new UpdateCustomerAddressRequest(id, customerId, addressLine1, addressLine2, addressLine3, townCity, county, postcode, invalidCountryId);
 
         var validationException = Assert.ThrowsAsync<ValidationException>(async () =>
@@ -122,6 +151,10 @@ public class UpdateCustomerAddressMediatrTests
     {
         countryRepositoryMock
                 .Setup(x => x.ExistsAsync(countryId))
+                .Returns(Task.FromResult(true));
+
+        customerAddressRepositoryMock
+                .Setup(x => x.ExistsAsync(customerId, id))
                 .Returns(Task.FromResult(true));
 
         var updateCustomerAddressRequest = new UpdateCustomerAddressRequest(id, customerId, "", addressLine2, addressLine3, "", county, "", countryId);
@@ -147,6 +180,10 @@ public class UpdateCustomerAddressMediatrTests
 
         countryRepositoryMock
                 .Setup(x => x.ExistsAsync(countryId))
+                .Returns(Task.FromResult(true));
+
+        customerAddressRepositoryMock
+                .Setup(x => x.ExistsAsync(customerId, id))
                 .Returns(Task.FromResult(true));
 
         var addCustomerAddressRequest = new UpdateCustomerAddressRequest(id, customerId, invalidString, invalidString, invalidString, invalidString, invalidString, invalidString, countryId);
