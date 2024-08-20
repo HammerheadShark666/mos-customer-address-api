@@ -2,7 +2,6 @@
 using FluentValidation;
 using MediatR;
 using Microservice.Customer.Address.Api.Extensions;
-using Microservice.Customer.Address.Api.Helpers;
 using Microservice.Customer.Address.Api.Helpers.Exceptions;
 using Microservice.Customer.Address.Api.Helpers.Interfaces;
 using Microservice.Customer.Address.Api.MediatR.AddCustomerAddress;
@@ -12,7 +11,6 @@ using Microservice.Customer.Address.Api.MediatR.UpdateCustomerAddress;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System.Net;
 
@@ -62,14 +60,9 @@ public static class Endpoints
 
         customerGroup.MapPost("/add", [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] 
                                             async ([FromBody] AddCustomerAddressRequest addCustomerAddressRequest, 
-                                                   [FromServices] IMediator mediator, ILogger logger, ICustomerAddressHttpAccessor customerAddressHttpAccessor) =>
-        {
-            logger.LogInformation("Start - Add customer address: {0}", customerAddressHttpAccessor.CustomerId);
-              
+                                                   [FromServices] IMediator mediator) =>
+        {              
             var addCustomerAddressResponse = await mediator.Send(addCustomerAddressRequest);
-
-            logger.LogInformation("End - Add customer address: {0}", customerAddressHttpAccessor.CustomerId);
-
             return Results.Ok(addCustomerAddressResponse);
         })
         .Accepts<AddCustomerAddressRequest>("application/json")
@@ -90,14 +83,9 @@ public static class Endpoints
 
         customerGroup.MapPut("/update", [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] 
                                                 async ([FromBody] UpdateCustomerAddressRequest updateCustomerAddressRequest, 
-                                                       [FromServices] IMediator mediator, ILogger logger, ICustomerAddressHttpAccessor customerAddressHttpAccessor) =>
+                                                       [FromServices] IMediator mediator) =>
         {
-            logger.LogInformation("Start - Update customer address: {0}", customerAddressHttpAccessor.CustomerId);
-
             var updateCustomerAddressResponse = await mediator.Send(updateCustomerAddressRequest);
-
-            logger.LogInformation("End - Update customer address: {0}", customerAddressHttpAccessor.CustomerId);
-
             return Results.Ok(updateCustomerAddressResponse);
         })
         .Accepts<UpdateCustomerAddressRequest>("application/json")
