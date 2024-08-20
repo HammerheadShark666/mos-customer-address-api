@@ -1,6 +1,8 @@
 ﻿using Asp.Versioning;
+using FluentValidation;
 using MediatR;
 using Microservice.Customer.Address.Api.Extensions;
+using Microservice.Customer.Address.Api.Helpers;
 using Microservice.Customer.Address.Api.Helpers.Exceptions;
 using Microservice.Customer.Address.Api.Helpers.Interfaces;
 using Microservice.Customer.Address.Api.MediatR.AddCustomerAddress;
@@ -10,6 +12,7 @@ using Microservice.Customer.Address.Api.MediatR.UpdateCustomerAddress;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System.Net;
 
@@ -28,6 +31,7 @@ public static class Endpoints
         })
         .Produces<GetCustomerAddressResponse>((int)HttpStatusCode.OK)
         .Produces<BadRequestException>((int)HttpStatusCode.BadRequest)
+        .Produces<ValidationException>((int)HttpStatusCode.BadRequest)
         .WithName("GetCustomerAddress")
         .WithApiVersionSet(app.GetApiVersionSet())
         .MapToApiVersion(new ApiVersion(1, 0))
@@ -45,6 +49,7 @@ public static class Endpoints
         })
         .Produces<GetCustomerAddressesResponse>((int)HttpStatusCode.OK)
         .Produces<BadRequestException>((int)HttpStatusCode.BadRequest)
+        .Produces<ValidationException>((int)HttpStatusCode.BadRequest)
         .WithName("GetCustomersAddresses")
         .WithApiVersionSet(app.GetApiVersionSet())
         .MapToApiVersion(new ApiVersion(1, 0))
@@ -55,14 +60,24 @@ public static class Endpoints
             Tags = new List<OpenApiTag> { new() { Name = "Microservice Customer System - Customers Addresses" } }
         });
 
-        customerGroup.MapPost("/add", [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] async([FromBody] AddCustomerAddressRequest addCustomerAddressRequest, [FromServices] IMediator mediator) =>
-        { 
+        customerGroup.MapPost("/add", [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] 
+                                            async ([FromBody] AddCustomerAddressRequest addCustomerAddressRequest, 
+                                                   [FromServices] IMediator mediator, ILogger logger, ICustomerAddressHttpAccessor customerAddressHttpAccessor) =>
+        {
+            logger.LogInformation("Start - Add customer address: {0}", customerAddressHttpAccessor.CustomerId);
+              
             var addCustomerAddressResponse = await mediator.Send(addCustomerAddressRequest);
+
+            logger.LogInformation("End - Add customer address: {0}", customerAddressHttpAccessor.CustomerId);
+
             return Results.Ok(addCustomerAddressResponse);
         })
         .Accepts<AddCustomerAddressRequest>("application/json")
         .Produces<AddCustomerAddressResponse>((int)HttpStatusCode.OK)
         .Produces<BadRequestException>((int)HttpStatusCode.BadRequest)
+        .Produces<ValidationException>((int)HttpStatusCode.BadRequest)
+        .Produces<ArgumentException>((int)HttpStatusCode.BadRequest)
+        .Produces<NotFoundException>((int)HttpStatusCode.BadRequest)
         .WithName("AddCustomerAddress")
         .WithApiVersionSet(app.GetApiVersionSet())
         .MapToApiVersion(new ApiVersion(1, 0))
@@ -73,14 +88,25 @@ public static class Endpoints
             Tags = new List<OpenApiTag> { new() { Name = "Microservice Customer System - Customers Address" } }
         });
 
-        customerGroup.MapPut("/update", [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] async ([FromBody] UpdateCustomerAddressRequest updateCustomerAddressRequest, [FromServices] IMediator mediator) =>
+        customerGroup.MapPut("/update", [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] 
+                                                async ([FromBody] UpdateCustomerAddressRequest updateCustomerAddressRequest, 
+                                                       [FromServices] IMediator mediator, ILogger logger, ICustomerAddressHttpAccessor customerAddressHttpAccessor) =>
         {
+            logger.LogInformation("Start - Update customer address: {0}", customerAddressHttpAccessor.CustomerId);
+
             var updateCustomerAddressResponse = await mediator.Send(updateCustomerAddressRequest);
+
+            logger.LogInformation("End - Update customer address: {0}", customerAddressHttpAccessor.CustomerId);
+
             return Results.Ok(updateCustomerAddressResponse);
         })
         .Accepts<UpdateCustomerAddressRequest>("application/json")
         .Produces<UpdateCustomerAddressResponse>((int)HttpStatusCode.OK)
+        .Produces<AddCustomerAddressResponse>((int)HttpStatusCode.OK)
         .Produces<BadRequestException>((int)HttpStatusCode.BadRequest)
+        .Produces<ValidationException>((int)HttpStatusCode.BadRequest)
+        .Produces<ArgumentException>((int)HttpStatusCode.BadRequest)
+        .Produces<NotFoundException>((int)HttpStatusCode.BadRequest)
         .WithName("UpdateCustomerAddress")
         .WithApiVersionSet(app.GetApiVersionSet())
         .MapToApiVersion(new ApiVersion(1, 0))
