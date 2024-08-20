@@ -1,6 +1,5 @@
 using Microservice.Customer.Address.Api.Endpoints;
 using Microservice.Customer.Address.Api.Extensions;
-using Microservice.Customer.Address.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
  
