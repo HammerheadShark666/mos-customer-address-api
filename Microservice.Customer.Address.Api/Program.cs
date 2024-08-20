@@ -22,11 +22,7 @@ app.ConfigureSwagger();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-
-if (!app.Environment.IsDevelopment())
-{
-    app.UseMiddleware<ExceptionHandlingMiddleware>();
-}
+app.ConfigureMiddleware(); 
 
 Endpoints.ConfigureRoutes(app, builder.Configuration);
 
