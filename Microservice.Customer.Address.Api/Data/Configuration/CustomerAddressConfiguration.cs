@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microservice.Customer.Address.Api.Domain;
 using Microsoft.EntityFrameworkCore;
-using Microservice.Customer.Address.Api.Domain;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Microservice.Customer.Address.Api.Data.Configuration;
 

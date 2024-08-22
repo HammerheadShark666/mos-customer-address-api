@@ -9,7 +9,7 @@ public class CountryRepository : ICountryRepository
 {
     private readonly CustomerAddressDbContext _context;
 
-    public CountryRepository(CustomerAddressDbContext context) 
+    public CountryRepository(CustomerAddressDbContext context)
     {
         _context = context;
     }

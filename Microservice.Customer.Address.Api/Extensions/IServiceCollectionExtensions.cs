@@ -28,7 +28,7 @@ public static class IServiceCollectionExtensions
     {
         services.AddTransient<ExceptionHandlingMiddleware>();
     }
-  
+
     public static void ConfigureJwt(this IServiceCollection services)
     {
         services.AddJwtAuthentication();
@@ -39,17 +39,17 @@ public static class IServiceCollectionExtensions
         services.AddMemoryCache();
         services.AddHttpContextAccessor();
         services.AddSingleton<ICustomerAddressHttpAccessor, CustomerAddressHttpAccessor>();
-        services.AddScoped<ICountryRepository,  CountryRepository>();
+        services.AddScoped<ICountryRepository, CountryRepository>();
         services.AddScoped<ICustomerAddressRepository, CustomerAddressRepository>();
-    } 
-     
+    }
+
     public static void ConfigureDatabaseContext(this IServiceCollection services, ConfigurationManager configuration)
     {
         services.AddDbContextFactory<CustomerAddressDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString(Constants.DatabaseConnectionString),
             options => options.EnableRetryOnFailure()));
-    } 
-     
+    }
+
     public static void ConfigureMediatr(this IServiceCollection services)
     {
         services.AddValidatorsFromAssemblyContaining<AddCustomerAddressValidator>();
@@ -82,5 +82,5 @@ public static class IServiceCollectionExtensions
             options.OperationFilter<SwaggerDefaultValues>();
             options.SupportNonNullableReferenceTypes();
         });
-    } 
+    }
 }

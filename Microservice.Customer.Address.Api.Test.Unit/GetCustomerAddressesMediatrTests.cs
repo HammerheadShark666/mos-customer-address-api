@@ -16,9 +16,9 @@ namespace Microservice.Customer.Address.Api.Test.Unit;
 [TestFixture]
 public class GetCustomerAddressesMediatrTests
 {
-    private Mock<ICustomerAddressRepository> customerAddressRepositoryMock = new Mock<ICustomerAddressRepository>();
-    private Mock<ICustomerAddressHttpAccessor> customerAddressHttpAccessorMock = new Mock<ICustomerAddressHttpAccessor>();
-    private ServiceCollection services = new ServiceCollection();
+    private Mock<ICustomerAddressRepository> customerAddressRepositoryMock = new();
+    private Mock<ICustomerAddressHttpAccessor> customerAddressHttpAccessorMock = new();
+    private ServiceCollection services = new();
     private ServiceProvider serviceProvider;
     private IMediator mediator;
 
@@ -31,7 +31,7 @@ public class GetCustomerAddressesMediatrTests
     private string county = "County";
     private string postcode = "Postcode";
     private int countryId = 1;
-    private Country country = new Country() { Id = 1, Name = "England" };
+    private Country country = new() { Id = 1, Name = "England" };
 
     [OneTimeSetUp]
     public void OneTimeSetup()
@@ -56,21 +56,21 @@ public class GetCustomerAddressesMediatrTests
 
     [Test]
     public async Task Get_customerAddresses_return_customerAddress()
-    { 
+    {
         customerAddressRepositoryMock
                 .Setup(x => x.ByCustomerAsync(customerId))
                 .Returns(Task.FromResult(GetCustomerAddressesReturnedFromDb()));
 
-        var getCustomerAddressesRequest = new GetCustomerAddressesRequest(customerId);          
+        var getCustomerAddressesRequest = new GetCustomerAddressesRequest(customerId);
         var actualResult = await mediator.Send(getCustomerAddressesRequest);
         var expectedResult = GetExpectedResponse();
-         
+
         Assert.That(actualResult.CustomerAddresses.Count, Is.EqualTo(2));
 
         var firstActualCustomerAddress = actualResult.CustomerAddresses.ElementAt(0);
         var firstExpectedCustomerAddress = expectedResult.CustomerAddresses.ElementAt(0);
 
-        Assert.That(firstActualCustomerAddress.Id, Is.EqualTo(firstExpectedCustomerAddress.Id)); 
+        Assert.That(firstActualCustomerAddress.Id, Is.EqualTo(firstExpectedCustomerAddress.Id));
         Assert.That(firstActualCustomerAddress.AddressLine1, Is.EqualTo(firstExpectedCustomerAddress.AddressLine1));
         Assert.That(firstActualCustomerAddress.AddressLine2, Is.EqualTo(firstExpectedCustomerAddress.AddressLine2));
         Assert.That(firstActualCustomerAddress.AddressLine3, Is.EqualTo(firstExpectedCustomerAddress.AddressLine3));
@@ -84,15 +84,15 @@ public class GetCustomerAddressesMediatrTests
     [Test]
     public void Get_customerAddress_return_exception()
     {
-        var customerId = Guid.NewGuid();   
+        var customerId = Guid.NewGuid();
 
-        var getCustomerAddressRequest = new GetCustomerAddressesRequest(customerId); 
+        var getCustomerAddressRequest = new GetCustomerAddressesRequest(customerId);
 
         var validationException = Assert.ThrowsAsync<NotFoundException>(async () =>
         {
             await mediator.Send(getCustomerAddressRequest);
         });
-         
+
         Assert.That(validationException.Message, Is.EqualTo("Customers addresses not found."));
     }
 
@@ -116,7 +116,7 @@ public class GetCustomerAddressesMediatrTests
     }
 
     private GetCustomerAddressesResponse GetExpectedResponse()
-    {  
+    {
         return new GetCustomerAddressesResponse([
             new Customer.Address.Api.MediatR.GetCustomerAddresses.CustomerAddress(id,
                        addressLine1, addressLine2, addressLine3, townCity, county, postcode, countryId, country),

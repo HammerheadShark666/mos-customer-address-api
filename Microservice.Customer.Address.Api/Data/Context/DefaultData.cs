@@ -11,7 +11,7 @@ public class DefaultData
             CreateCountry(1, "England"),
             CreateCountry(2, "Scotland"),
             CreateCountry(3, "Wales"),
-            CreateCountry(4, "Northern Ireland") 
+            CreateCountry(4, "Northern Ireland")
         };
     }
 
@@ -29,12 +29,12 @@ public class DefaultData
         };
     }
 
-    private static CustomerAddress CreateCustomerAddress(Guid customerId, 
+    private static CustomerAddress CreateCustomerAddress(Guid customerId,
                                                          string addressLine1, string addressLine2, string addressLine3,
                                                          string townCity, string county, string postcode, int countryId)
     {
         return new CustomerAddress
-        { 
+        {
             Id = Guid.NewGuid(),
             CustomerId = customerId,
             AddressLine1 = addressLine1,
@@ -45,6 +45,6 @@ public class DefaultData
             Postcode = postcode,
             CountryId = countryId
         };
-    } 
+    }
 }
 

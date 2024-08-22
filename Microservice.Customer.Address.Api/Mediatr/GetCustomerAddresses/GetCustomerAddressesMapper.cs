@@ -26,6 +26,6 @@ public class GetCustomerAddressesMapper : Profile
             .ForCtorParam(nameof(GetCustomerAddresses.CustomerAddress.Postcode),
                     opt => opt.MapFrom(src => src.Postcode))
             .ForCtorParam(nameof(GetCustomerAddresses.CustomerAddress.CountryId),
-                    opt => opt.MapFrom(src => src.CountryId)); 
+                    opt => opt.MapFrom(src => src.CountryId));
     }
 }

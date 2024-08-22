@@ -15,11 +15,11 @@ namespace Microservice.Customer.Address.Api.Test.Unit;
 [TestFixture]
 public class UpdateCustomerAddressMediatrTests
 {
-    private Mock<ICustomerAddressRepository> customerAddressRepositoryMock = new Mock<ICustomerAddressRepository>();
-    private Mock<ICountryRepository> countryRepositoryMock = new Mock<ICountryRepository>();
-    private Mock<ICustomerAddressHttpAccessor> customerAddressHttpAccessorMock = new Mock<ICustomerAddressHttpAccessor>();
-    private Mock<ILogger<UpdateCustomerAddressCommandHandler>> iLogger = new Mock<ILogger<UpdateCustomerAddressCommandHandler>>();
-    private ServiceCollection services = new ServiceCollection();
+    private Mock<ICustomerAddressRepository> customerAddressRepositoryMock = new();
+    private Mock<ICountryRepository> countryRepositoryMock = new();
+    private Mock<ICustomerAddressHttpAccessor> customerAddressHttpAccessorMock = new();
+    private Mock<ILogger<UpdateCustomerAddressCommandHandler>> iLogger = new();
+    private ServiceCollection services = new();
     private ServiceProvider serviceProvider;
     private IMediator mediator;
     private Guid customerAddressId;
@@ -33,7 +33,7 @@ public class UpdateCustomerAddressMediatrTests
     private string county = "County";
     private string postcode = "Postcode";
     private int countryId = 1;
-    private Country country = new Country() { Id = 1, Name = "England" };
+    private Country country = new() { Id = 1, Name = "England" };
 
     [OneTimeSetUp]
     public void OneTimeSetup()
@@ -70,7 +70,7 @@ public class UpdateCustomerAddressMediatrTests
 
     [Test]
     public async Task CustomerAddress_updated_return_success_message()
-    { 
+    {
         var customerAddress = new CustomerAddress()
         {
             Id = id,
@@ -84,7 +84,7 @@ public class UpdateCustomerAddressMediatrTests
             CountryId = countryId,
             Country = country
         };
-         
+
         customerAddressHttpAccessorMock.Setup(x => x.CustomerId)
                 .Returns(customerId);
 
@@ -97,7 +97,7 @@ public class UpdateCustomerAddressMediatrTests
         customerAddressRepositoryMock
                 .Setup(x => x.ExistsAsync(customerId, id))
                 .Returns(Task.FromResult(true));
-         
+
         customerAddressRepositoryMock
                 .Setup(x => x.ByIdAsync(customerId, id))
                 .Returns(Task.FromResult(customerAddress));
@@ -112,7 +112,7 @@ public class UpdateCustomerAddressMediatrTests
 
     [Test]
     public void CustomerAddress_not_updated_address_not_found_return_exception_fail_message()
-    {  
+    {
         countryRepositoryMock
                 .Setup(x => x.ExistsAsync(countryId))
                 .Returns(Task.FromResult(true));

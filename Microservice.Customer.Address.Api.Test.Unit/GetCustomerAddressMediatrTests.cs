@@ -15,9 +15,9 @@ namespace Microservice.Customer.Address.Api.Test.Unit;
 [TestFixture]
 public class GetCustomerAddressMediatrTests
 {
-    private Mock<ICustomerAddressRepository> customerAddressRepositoryMock = new Mock<ICustomerAddressRepository>();
-    private Mock<ICustomerAddressHttpAccessor> customerAddressHttpAccessorMock = new Mock<ICustomerAddressHttpAccessor>();
-    private ServiceCollection services = new ServiceCollection();
+    private Mock<ICustomerAddressRepository> customerAddressRepositoryMock = new();
+    private Mock<ICustomerAddressHttpAccessor> customerAddressHttpAccessorMock = new();
+    private ServiceCollection services = new();
     private ServiceProvider serviceProvider;
     private IMediator mediator;
 
@@ -44,7 +44,7 @@ public class GetCustomerAddressMediatrTests
 
     [Test]
     public async Task Get_customerAddress_return_customerAddress()
-    { 
+    {
         var id = Guid.NewGuid();
         var customerId = Guid.NewGuid();
         var addressLine1 = "AddressLine1";
@@ -55,10 +55,20 @@ public class GetCustomerAddressMediatrTests
         var postcode = "Postcode";
         var countryId = 1;
         var country = new Country() { Id = 1, Name = "England" };
-         
-        var customerAddress = new Customer.Address.Api.Domain.CustomerAddress() { Id = id, 
-                    CustomerId = customerId, AddressLine1 = addressLine1, AddressLine2 = addressLine2, AddressLine3 = addressLine3, 
-                    TownCity = townCity, County = county, Postcode = postcode, CountryId = countryId, Country = country };
+
+        var customerAddress = new Customer.Address.Api.Domain.CustomerAddress()
+        {
+            Id = id,
+            CustomerId = customerId,
+            AddressLine1 = addressLine1,
+            AddressLine2 = addressLine2,
+            AddressLine3 = addressLine3,
+            TownCity = townCity,
+            County = county,
+            Postcode = postcode,
+            CountryId = countryId,
+            Country = country
+        };
 
         //customerAddressRepositoryMock
         //        .Setup(x => x.ExistsAsync(id))
@@ -99,13 +109,13 @@ public class GetCustomerAddressMediatrTests
         customerAddressHttpAccessorMock.Setup(x => x.CustomerId)
             .Returns(customerAddressId);
 
-        var getCustomerAddressRequest = new GetCustomerAddressRequest(customerAddressId, customerId); 
+        var getCustomerAddressRequest = new GetCustomerAddressRequest(customerAddressId, customerId);
 
         var validationException = Assert.ThrowsAsync<NotFoundException>(async () =>
         {
             await mediator.Send(getCustomerAddressRequest);
         });
-         
+
         Assert.That(validationException.Message, Is.EqualTo("Customer address not found."));
     }
 }

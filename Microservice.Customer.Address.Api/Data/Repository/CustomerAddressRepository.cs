@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 namespace Microservice.Customer.Address.Data.Repository;
 
 public class CustomerAddressRepository(IDbContextFactory<CustomerAddressDbContext> dbContextFactory) : ICustomerAddressRepository
-{    
+{
     public IDbContextFactory<CustomerAddressDbContext> _dbContextFactory { get; set; } = dbContextFactory;
-  
+
     public async Task<Api.Domain.CustomerAddress> AddAsync(Api.Domain.CustomerAddress customerAddress)
     {
         await using var db = await _dbContextFactory.CreateDbContextAsync();
@@ -37,7 +37,7 @@ public class CustomerAddressRepository(IDbContextFactory<CustomerAddressDbContex
         return await db.CustomerAddress
                         .AsNoTracking()
                         .Where(o => o.CustomerId.Equals(customerId))
-                        .Include(e => e.Country) 
+                        .Include(e => e.Country)
                         .ToListAsync();
     }
 

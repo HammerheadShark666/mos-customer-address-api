@@ -6,23 +6,24 @@ using System.Text;
 namespace Microservice.Customer.Address.Api.Extensions;
 
 public static class JwtExtensions
-{ 
+{
     public static void AddJwtAuthentication(this IServiceCollection services)
-    { 
-        services.AddAuthentication(opt => {
+    {
+        services.AddAuthentication(opt =>
+        {
             opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; 
+            opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         })
         .AddJwtBearer(options =>
         {
             options.TokenValidationParameters = new TokenValidationParameters
             {
-                ValidateIssuer = true,            
+                ValidateIssuer = true,
                 ValidateAudience = true,
                 ValidateIssuerSigningKey = true,
                 ValidateLifetime = true,
                 ValidIssuer = EnvironmentVariables.JwtIssuer,
-                ValidAudience = EnvironmentVariables.JwtAudience, 
+                ValidAudience = EnvironmentVariables.JwtAudience,
                 IssuerSigningKey = new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes(EnvironmentVariables.JwtSymmetricSecurityKey)
                 )

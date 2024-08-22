@@ -6,7 +6,7 @@ using Microservice.Customer.Address.Api.Helpers.Exceptions;
 namespace Microservice.Customer.Address.Api.MediatR.UpdateCustomerAddress;
 
 public class UpdateCustomerAddressCommandHandler(ICustomerAddressRepository customerAddressRepository,
-                                                 ILogger<UpdateCustomerAddressCommandHandler> logger, 
+                                                 ILogger<UpdateCustomerAddressCommandHandler> logger,
                                                  IMapper mapper) : IRequestHandler<UpdateCustomerAddressRequest, UpdateCustomerAddressResponse>
 {
     private ICustomerAddressRepository _customerAddressRepository { get; set; } = customerAddressRepository;
@@ -20,7 +20,7 @@ public class UpdateCustomerAddressCommandHandler(ICustomerAddressRepository cust
         {
             _logger.LogError("Customer address not found: Id - {0}, Customer - {1}.", updateCustomerAddressRequest.Id, updateCustomerAddressRequest.CustomerId);
             throw new NotFoundException("Customer Address not found.");
-        }            
+        }
 
         existingCustomerAddress = _mapper.Map(updateCustomerAddressRequest, existingCustomerAddress);
 

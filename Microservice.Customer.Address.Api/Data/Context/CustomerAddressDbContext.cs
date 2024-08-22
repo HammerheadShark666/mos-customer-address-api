@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microservice.Customer.Address.Api.Data.Contexts;
 public class CustomerAddressDbContext : DbContext
-{ 
+{
     public CustomerAddressDbContext(DbContextOptions<CustomerAddressDbContext> options) : base(options) { }
- 
+
     public DbSet<CustomerAddress> CustomerAddress { get; set; }
     public DbSet<Country> Country { get; set; }
-      
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -19,6 +19,6 @@ public class CustomerAddressDbContext : DbContext
         modelBuilder.ApplyConfiguration(new CustomerAddressConfiguration());
 
         modelBuilder.Entity<Country>().HasData(DefaultData.GetCountryDefaultData());
-        modelBuilder.Entity<CustomerAddress>().HasData(DefaultData.GetCustomerAddressDefaultData()); 
+        modelBuilder.Entity<CustomerAddress>().HasData(DefaultData.GetCustomerAddressDefaultData());
     }
 }

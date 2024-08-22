@@ -2,7 +2,7 @@ using Microservice.Customer.Address.Api.Endpoints;
 using Microservice.Customer.Address.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
- 
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -14,14 +14,14 @@ builder.Services.ConfigureExceptionHandling();
 builder.Services.ConfigureJwt();
 builder.Services.ConfigureMediatr();
 builder.Services.ConfigureSwagger();
- 
+
 var app = builder.Build();
- 
+
 app.ConfigureSwagger();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-app.ConfigureMiddleware(); 
+app.ConfigureMiddleware();
 
 Endpoints.ConfigureRoutes(app, builder.Configuration);
 

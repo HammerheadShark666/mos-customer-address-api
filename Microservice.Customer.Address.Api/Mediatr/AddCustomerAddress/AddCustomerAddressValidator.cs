@@ -17,7 +17,7 @@ public class AddCustomerAddressValidator : AbstractValidator<AddCustomerAddressR
                    .NotEmpty().WithMessage("Address line 1 is required.")
                    .Length(1, 50).WithMessage("Address line 1 is length between 1 and 50.");
 
-        RuleFor(address => address.AddressLine2) 
+        RuleFor(address => address.AddressLine2)
                    .Length(1, 50).WithMessage("Address line 2 is length between 1 and 50.");
 
         RuleFor(address => address.AddressLine3)
@@ -27,7 +27,7 @@ public class AddCustomerAddressValidator : AbstractValidator<AddCustomerAddressR
               .NotEmpty().WithMessage("Town/City is required.")
               .Length(1, 50).WithMessage("Town/City length is between 1 and 50.");
 
-        RuleFor(address => address.County) 
+        RuleFor(address => address.County)
               .Length(1, 50).WithMessage("County length is between 1 and 50.");
 
         RuleFor(address => address.Postcode)
@@ -38,11 +38,11 @@ public class AddCustomerAddressValidator : AbstractValidator<AddCustomerAddressR
         {
             return await CountryExists(address.CountryId);
         })
-        .WithMessage(x => $"The country does not exists."); 
+        .WithMessage(x => $"The country does not exists.");
     }
 
     protected async Task<bool> CountryExists(int id)
     {
         return await _countryRepository.ExistsAsync(id);
-    } 
+    }
 }

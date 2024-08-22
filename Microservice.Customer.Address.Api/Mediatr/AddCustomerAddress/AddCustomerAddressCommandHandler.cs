@@ -5,17 +5,17 @@ using Microservice.Customer.Address.Api.Helpers.Interfaces;
 
 namespace Microservice.Customer.Address.Api.MediatR.AddCustomerAddress;
 
-public class AddCustomerAddressCommandHandler(ICustomerAddressRepository customerAddressRepository, 
+public class AddCustomerAddressCommandHandler(ICustomerAddressRepository customerAddressRepository,
                                               IMapper mapper,
                                               ICustomerAddressHttpAccessor customerAddressHttpAccessor) : IRequestHandler<AddCustomerAddressRequest, AddCustomerAddressResponse>
-{ 
+{
     private ICustomerAddressRepository _customerAddressRepository { get; set; } = customerAddressRepository;
     private IMapper _mapper { get; set; } = mapper;
     private ICustomerAddressHttpAccessor _customerAddressHttpAccessor { get; set; } = customerAddressHttpAccessor;
 
     public async Task<AddCustomerAddressResponse> Handle(AddCustomerAddressRequest addCustomerAddressRequest, CancellationToken cancellationToken)
-    { 
-        var customerAddress = await _customerAddressRepository.AddAsync(GetCustomerAddress(addCustomerAddressRequest)); 
+    {
+        var customerAddress = await _customerAddressRepository.AddAsync(GetCustomerAddress(addCustomerAddressRequest));
         return new AddCustomerAddressResponse(customerAddress.Id);
     }
 
