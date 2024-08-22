@@ -14,14 +14,14 @@ namespace Microservice.Customer.Address.Api.Test.Unit;
 [TestFixture]
 public class AddCustomerAddressMediatrTests
 {
-    private Mock<ICustomerAddressRepository> customerAddressRepositoryMock = new Mock<ICustomerAddressRepository>();
-    private Mock<ICountryRepository> countryRepositoryMock = new Mock<ICountryRepository>();
-    private Mock<ICustomerAddressHttpAccessor> customerAddressHttpAccessorMock = new Mock<ICustomerAddressHttpAccessor>();
-    private ServiceCollection services = new ServiceCollection();
+    private Mock<ICustomerAddressRepository> customerAddressRepositoryMock = new();
+    private Mock<ICountryRepository> countryRepositoryMock = new();
+    private Mock<ICustomerAddressHttpAccessor> customerAddressHttpAccessorMock = new();
+    private ServiceCollection services = new();
     private ServiceProvider serviceProvider;
     private IMediator mediator;
     private Guid customerAddressId;
-     
+
     private string addressLine1 = "AddressLine1";
     private string addressLine2 = "AddressLine2";
     private string addressLine3 = "AddressLine3";
@@ -29,7 +29,7 @@ public class AddCustomerAddressMediatrTests
     private string county = "County";
     private string postcode = "Postcode";
     private int countryId = 1;
-    private Country country = new Country() { Id = 1, Name = "England" };
+    private Country country = new() { Id = 1, Name = "England" };
 
     [OneTimeSetUp]
     public void OneTimeSetup()
@@ -66,7 +66,7 @@ public class AddCustomerAddressMediatrTests
     [Test]
     public async Task CustomerAddress_added_return_success_message()
     {
-        var customerId = Guid.NewGuid(); 
+        var customerId = Guid.NewGuid();
         var savedCustomerAddress = new CustomerAddress()
         {
             Id = Guid.NewGuid(),
@@ -93,9 +93,9 @@ public class AddCustomerAddressMediatrTests
 
         var addCustomerAddressRequest = new AddCustomerAddressRequest(addressLine1, addressLine2, addressLine3, townCity, county, postcode, countryId);
 
-        var actualResult = await mediator.Send(addCustomerAddressRequest); 
+        var actualResult = await mediator.Send(addCustomerAddressRequest);
 
-        Assert.That(actualResult.Id, !Is.Empty); 
+        Assert.That(actualResult.Id, !Is.Empty);
     }
 
     [Test]
@@ -117,7 +117,7 @@ public class AddCustomerAddressMediatrTests
         Assert.That(validationException.Errors.Count, Is.EqualTo(1));
         Assert.That(validationException.Errors.ElementAt(0).ErrorMessage, Is.EqualTo("The country does not exists."));
     }
-     
+
     [Test]
     public void CustomerAddress_not_added_missing_required_data_return_exception_fail_message()
     {

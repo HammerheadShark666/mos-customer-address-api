@@ -22,7 +22,7 @@ public static class Endpoints
     {
         var customerGroup = app.MapGroup("v{version:apiVersion}/customer-addresses").WithTags("customerAddresses");
 
-        customerGroup.MapGet("/{id}", [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] async ([FromRoute] Guid id,  [FromServices] IMediator mediator, ICustomerAddressHttpAccessor customerAddressHttpAccessor) =>
+        customerGroup.MapGet("/{id}", [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] async ([FromRoute] Guid id, [FromServices] IMediator mediator, ICustomerAddressHttpAccessor customerAddressHttpAccessor) =>
         {
             var getCustomerResponse = await mediator.Send(new GetCustomerAddressRequest(id, customerAddressHttpAccessor.CustomerId));
             return Results.Ok(getCustomerResponse);
@@ -30,7 +30,6 @@ public static class Endpoints
         .Produces<GetCustomerAddressResponse>((int)HttpStatusCode.OK)
         .Produces<BadRequestException>((int)HttpStatusCode.BadRequest)
         .Produces<ValidationException>((int)HttpStatusCode.BadRequest)
-        .Produces<NotFoundException>((int)HttpStatusCode.NotFound)
         .WithName("GetCustomerAddress")
         .WithApiVersionSet(app.GetApiVersionSet())
         .MapToApiVersion(new ApiVersion(1, 0))
@@ -49,7 +48,6 @@ public static class Endpoints
         .Produces<GetCustomerAddressesResponse>((int)HttpStatusCode.OK)
         .Produces<BadRequestException>((int)HttpStatusCode.BadRequest)
         .Produces<ValidationException>((int)HttpStatusCode.BadRequest)
-        .Produces<NotFoundException>((int)HttpStatusCode.NotFound)
         .WithName("GetCustomersAddresses")
         .WithApiVersionSet(app.GetApiVersionSet())
         .MapToApiVersion(new ApiVersion(1, 0))
@@ -60,10 +58,10 @@ public static class Endpoints
             Tags = new List<OpenApiTag> { new() { Name = "Microservice Customer System - Customers Addresses" } }
         });
 
-        customerGroup.MapPost("/add", [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] 
-                                            async ([FromBody] AddCustomerAddressRequest addCustomerAddressRequest, 
+        customerGroup.MapPost("/add", [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        async ([FromBody] AddCustomerAddressRequest addCustomerAddressRequest,
                                                    [FromServices] IMediator mediator) =>
-        {              
+        {
             var addCustomerAddressResponse = await mediator.Send(addCustomerAddressRequest);
             return Results.Ok(addCustomerAddressResponse);
         })
@@ -72,7 +70,7 @@ public static class Endpoints
         .Produces<BadRequestException>((int)HttpStatusCode.BadRequest)
         .Produces<ValidationException>((int)HttpStatusCode.BadRequest)
         .Produces<ArgumentException>((int)HttpStatusCode.BadRequest)
-        .Produces<NotFoundException>((int)HttpStatusCode.NotFound)
+        .Produces<NotFoundException>((int)HttpStatusCode.BadRequest)
         .WithName("AddCustomerAddress")
         .WithApiVersionSet(app.GetApiVersionSet())
         .MapToApiVersion(new ApiVersion(1, 0))
@@ -83,8 +81,8 @@ public static class Endpoints
             Tags = new List<OpenApiTag> { new() { Name = "Microservice Customer System - Customers Address" } }
         });
 
-        customerGroup.MapPut("/update", [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] 
-                                                async ([FromBody] UpdateCustomerAddressRequest updateCustomerAddressRequest, 
+        customerGroup.MapPut("/update", [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        async ([FromBody] UpdateCustomerAddressRequest updateCustomerAddressRequest,
                                                        [FromServices] IMediator mediator) =>
         {
             var updateCustomerAddressResponse = await mediator.Send(updateCustomerAddressRequest);
@@ -96,7 +94,7 @@ public static class Endpoints
         .Produces<BadRequestException>((int)HttpStatusCode.BadRequest)
         .Produces<ValidationException>((int)HttpStatusCode.BadRequest)
         .Produces<ArgumentException>((int)HttpStatusCode.BadRequest)
-        .Produces<NotFoundException>((int)HttpStatusCode.NotFound)
+        .Produces<NotFoundException>((int)HttpStatusCode.BadRequest)
         .WithName("UpdateCustomerAddress")
         .WithApiVersionSet(app.GetApiVersionSet())
         .MapToApiVersion(new ApiVersion(1, 0))
@@ -105,6 +103,6 @@ public static class Endpoints
             Summary = "Update a customer address.",
             Description = "Updates a customer address.",
             Tags = new List<OpenApiTag> { new() { Name = "Microservice Customer System - Customers Address" } }
-        }); 
-    } 
+        });
+    }
 }

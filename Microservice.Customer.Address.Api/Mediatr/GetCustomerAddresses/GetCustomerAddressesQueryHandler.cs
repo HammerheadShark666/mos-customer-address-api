@@ -9,15 +9,15 @@ public class GetCustomerAddressesQueryHandler(ICustomerAddressRepository custome
 {
     private ICustomerAddressRepository _customerAddressRepository { get; set; } = customerAddressRepository;
     private IMapper _mapper { get; set; } = mapper;
-     
+
     public async Task<GetCustomerAddressesResponse> Handle(GetCustomerAddressesRequest request, CancellationToken cancellationToken)
-    {  
-        var customerAddresses = await _customerAddressRepository.ByCustomerAsync(request.CustomerId); 
-        if(customerAddresses == null)
+    {
+        var customerAddresses = await _customerAddressRepository.ByCustomerAsync(request.CustomerId);
+        if (customerAddresses == null)
         {
             throw new NotFoundException("Customers addresses not found.");
         }
 
-        return _mapper.Map<GetCustomerAddressesResponse>(customerAddresses); 
+        return _mapper.Map<GetCustomerAddressesResponse>(customerAddresses);
     }
 }

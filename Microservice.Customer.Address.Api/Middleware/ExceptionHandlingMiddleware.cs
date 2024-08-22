@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
-using Microservice.Customer.Address.Api.Helpers.Exceptions; 
+using Microservice.Customer.Address.Api.Helpers.Exceptions;
 using System.Net;
 using System.Text.Json;
 using static Microservice.Customer.Address.Api.Helpers.Enums;
@@ -37,8 +37,8 @@ internal sealed class ExceptionHandlingMiddleware : IMiddleware
         switch (exception)
         {
             case ValidationException validationException:
-                httpStatusCode = HttpStatusCode.BadRequest; 
-                result = JsonSerializer.Serialize(GetValidationErrors(validationException.Errors)); 
+                httpStatusCode = HttpStatusCode.BadRequest;
+                result = JsonSerializer.Serialize(GetValidationErrors(validationException.Errors));
                 break;
             case ArgumentException argumentException:
                 httpStatusCode = HttpStatusCode.BadRequest;
@@ -61,7 +61,7 @@ internal sealed class ExceptionHandlingMiddleware : IMiddleware
         if (result == string.Empty) result = JsonSerializer.Serialize(new { error = exception?.Message });
 
         return context.Response.WriteAsync(result);
-    } 
+    }
 
     private static IEnumerable<Helpers.ValidationError> GetValidationErrors(IEnumerable<ValidationFailure> validationErrors)
     {
@@ -72,5 +72,5 @@ internal sealed class ExceptionHandlingMiddleware : IMiddleware
                 yield return new Helpers.ValidationError(ErrorType.Error.ToString(), error.ErrorMessage);
             }
         }
-    } 
+    }
 }

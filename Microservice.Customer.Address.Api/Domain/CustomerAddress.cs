@@ -33,7 +33,7 @@ public class CustomerAddress
     [ForeignKey("Id")]
     [Required]
     public int? CountryId { get; set; }
-    public Country Country { get; set; } 
+    public Country Country { get; set; }
 
     [Required]
     public DateTime Created { get; set; } = DateTime.Now;
