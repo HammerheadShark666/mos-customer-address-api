@@ -18,7 +18,7 @@ public class GetCustomerAddressQueryHandler(ICustomerAddressRepository customerA
         var customerAddress = await _customerAddressRepository.ByIdAsync(getCustomerAddressRequest.CustomerId, getCustomerAddressRequest.Id);
         if (customerAddress == null)
         {
-            _logger.LogError($"Customer address not found - { getCustomerAddressRequest.Id }");
+            _logger.LogError($"Customer address not found - {getCustomerAddressRequest.Id}");
             throw new NotFoundException("Customer address not found.");
         }
 
