@@ -6,7 +6,6 @@ using Microservice.Customer.Address.Api.Helpers;
 using Microservice.Customer.Address.Api.Helpers.Exceptions;
 using Microservice.Customer.Address.Api.Helpers.Interfaces;
 using Microservice.Customer.Address.Api.MediatR.GetCustomerAddress;
-using Microservice.Customer.Address.Api.MediatR.GetCustomerAddresses;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -17,10 +16,10 @@ namespace Microservice.Customer.Address.Api.Test.Unit;
 [TestFixture]
 public class GetCustomerAddressMediatrTests
 {
-    private Mock<ICustomerAddressRepository> customerAddressRepositoryMock = new();
-    private Mock<ICustomerAddressHttpAccessor> customerAddressHttpAccessorMock = new();
-    private Mock<ILogger<GetCustomerAddressQueryHandler>> loggerMock = new();
-    private ServiceCollection services = new();
+    private readonly Mock<ICustomerAddressRepository> customerAddressRepositoryMock = new();
+    private readonly Mock<ICustomerAddressHttpAccessor> customerAddressHttpAccessorMock = new();
+    private readonly Mock<ILogger<GetCustomerAddressQueryHandler>> loggerMock = new();
+    private readonly ServiceCollection services = new();
     private ServiceProvider serviceProvider;
     private IMediator mediator;
 
@@ -88,16 +87,19 @@ public class GetCustomerAddressMediatrTests
         var expectedResult = new GetCustomerAddressResponse(id, customerId, addressLine1, addressLine2, addressLine3,
                                                                 townCity, county, postcode, countryId, country);
 
-        Assert.That(actualResult.Id, Is.EqualTo(expectedResult.Id));
-        Assert.That(actualResult.CustomerId, Is.EqualTo(expectedResult.CustomerId));
-        Assert.That(actualResult.AddressLine1, Is.EqualTo(expectedResult.AddressLine1));
-        Assert.That(actualResult.AddressLine2, Is.EqualTo(expectedResult.AddressLine2));
-        Assert.That(actualResult.AddressLine3, Is.EqualTo(expectedResult.AddressLine3));
-        Assert.That(actualResult.TownCity, Is.EqualTo(expectedResult.TownCity));
-        Assert.That(actualResult.County, Is.EqualTo(expectedResult.County));
-        Assert.That(actualResult.Postcode, Is.EqualTo(expectedResult.Postcode));
-        Assert.That(actualResult.CountryId, Is.EqualTo(expectedResult.CountryId));
-        Assert.That(actualResult.Country, Is.EqualTo(expectedResult.Country));
+        Assert.Multiple(() =>
+        {
+            Assert.That(actualResult.Id, Is.EqualTo(expectedResult.Id));
+            Assert.That(actualResult.CustomerId, Is.EqualTo(expectedResult.CustomerId));
+            Assert.That(actualResult.AddressLine1, Is.EqualTo(expectedResult.AddressLine1));
+            Assert.That(actualResult.AddressLine2, Is.EqualTo(expectedResult.AddressLine2));
+            Assert.That(actualResult.AddressLine3, Is.EqualTo(expectedResult.AddressLine3));
+            Assert.That(actualResult.TownCity, Is.EqualTo(expectedResult.TownCity));
+            Assert.That(actualResult.County, Is.EqualTo(expectedResult.County));
+            Assert.That(actualResult.Postcode, Is.EqualTo(expectedResult.Postcode));
+            Assert.That(actualResult.CountryId, Is.EqualTo(expectedResult.CountryId));
+            Assert.That(actualResult.Country, Is.EqualTo(expectedResult.Country));
+        });
     }
 
     [Test]

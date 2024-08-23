@@ -2,7 +2,6 @@ using AutoMapper;
 using MediatR;
 using Microservice.Customer.Address.Api.Data.Repository.Interfaces;
 using Microservice.Customer.Address.Api.Helpers.Exceptions;
-using Microservice.Customer.Address.Api.MediatR.GetCustomerAddress;
 
 namespace Microservice.Customer.Address.Api.MediatR.GetCustomerAddresses;
 
@@ -19,7 +18,7 @@ public class GetCustomerAddressesQueryHandler(ICustomerAddressRepository custome
         var customerAddresses = await _customerAddressRepository.ByCustomerAsync(getCustomerAddressesRequest.CustomerId);
         if (customerAddresses == null)
         {
-            _logger.LogError($"Customers addresses not found - {getCustomerAddressesRequest.CustomerId }");
+            _logger.LogError($"Customers addresses not found - {getCustomerAddressesRequest.CustomerId}");
             throw new NotFoundException("Customers addresses not found.");
         }
 
