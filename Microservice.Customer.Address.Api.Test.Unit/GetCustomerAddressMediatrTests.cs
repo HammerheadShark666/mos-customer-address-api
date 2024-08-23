@@ -6,7 +6,9 @@ using Microservice.Customer.Address.Api.Helpers;
 using Microservice.Customer.Address.Api.Helpers.Exceptions;
 using Microservice.Customer.Address.Api.Helpers.Interfaces;
 using Microservice.Customer.Address.Api.MediatR.GetCustomerAddress;
+using Microservice.Customer.Address.Api.MediatR.GetCustomerAddresses;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System.Reflection;
 
@@ -17,6 +19,7 @@ public class GetCustomerAddressMediatrTests
 {
     private Mock<ICustomerAddressRepository> customerAddressRepositoryMock = new();
     private Mock<ICustomerAddressHttpAccessor> customerAddressHttpAccessorMock = new();
+    private Mock<ILogger<GetCustomerAddressQueryHandler>> loggerMock = new();
     private ServiceCollection services = new();
     private ServiceProvider serviceProvider;
     private IMediator mediator;
@@ -29,6 +32,7 @@ public class GetCustomerAddressMediatrTests
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
         services.AddScoped<ICustomerAddressRepository>(sp => customerAddressRepositoryMock.Object);
         services.AddScoped<ICustomerAddressHttpAccessor>(sp => customerAddressHttpAccessorMock.Object);
+        services.AddScoped<ILogger<GetCustomerAddressQueryHandler>>(sp => loggerMock.Object);
         services.AddAutoMapper(Assembly.GetAssembly(typeof(GetCustomerAddressMapper)));
 
         serviceProvider = services.BuildServiceProvider();
