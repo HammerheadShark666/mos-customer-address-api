@@ -20,7 +20,7 @@ public static class Endpoints
 {
     public static void ConfigureRoutes(this WebApplication app, ConfigurationManager configuration)
     {
-        var customerGroup = app.MapGroup("v{version:apiVersion}/customer-addresses").WithTags("customerAddresses");
+        var customerGroup = app.MapGroup("v{version:apiVersion}/customer-address").WithTags("customerAddress");
 
         customerGroup.MapGet("/{id}", [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] async ([FromRoute] Guid id, [FromServices] IMediator mediator, ICustomerAddressHttpAccessor customerAddressHttpAccessor) =>
         {
