@@ -94,14 +94,14 @@
               }
             ],
             "url": {
-              "raw": "https://{{customer_address_url}}/v1/customer-addresses/logged-in",
+              "raw": "https://{{customer_address_url}}/v1/customer-address/logged-in",
               "protocol": "https",
               "host": [
                 "{{customer_address_url}}"
               ],
               "path": [
                 "v1",
-                "customer-addresses",
+                "customer-address",
                 "logged-in"
               ]
             }
