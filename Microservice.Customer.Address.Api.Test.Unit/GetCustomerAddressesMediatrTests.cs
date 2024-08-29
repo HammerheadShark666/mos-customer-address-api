@@ -73,15 +73,18 @@ public class GetCustomerAddressesMediatrTests
         var firstActualCustomerAddress = actualResult.CustomerAddresses.ElementAt(0);
         var firstExpectedCustomerAddress = expectedResult.CustomerAddresses.ElementAt(0);
 
-        Assert.That(firstActualCustomerAddress.Id, Is.EqualTo(firstExpectedCustomerAddress.Id));
-        Assert.That(firstActualCustomerAddress.AddressLine1, Is.EqualTo(firstExpectedCustomerAddress.AddressLine1));
-        Assert.That(firstActualCustomerAddress.AddressLine2, Is.EqualTo(firstExpectedCustomerAddress.AddressLine2));
-        Assert.That(firstActualCustomerAddress.AddressLine3, Is.EqualTo(firstExpectedCustomerAddress.AddressLine3));
-        Assert.That(firstActualCustomerAddress.TownCity, Is.EqualTo(firstExpectedCustomerAddress.TownCity));
-        Assert.That(firstActualCustomerAddress.County, Is.EqualTo(firstExpectedCustomerAddress.County));
-        Assert.That(firstActualCustomerAddress.Postcode, Is.EqualTo(firstExpectedCustomerAddress.Postcode));
-        Assert.That(firstActualCustomerAddress.CountryId, Is.EqualTo(firstExpectedCustomerAddress.CountryId));
-        Assert.That(firstActualCustomerAddress.Country, Is.EqualTo(firstExpectedCustomerAddress.Country));
+        Assert.Multiple(() =>
+        {
+            Assert.That(firstActualCustomerAddress.Id, Is.EqualTo(firstExpectedCustomerAddress.Id));
+            Assert.That(firstActualCustomerAddress.AddressLine1, Is.EqualTo(firstExpectedCustomerAddress.AddressLine1));
+            Assert.That(firstActualCustomerAddress.AddressLine2, Is.EqualTo(firstExpectedCustomerAddress.AddressLine2));
+            Assert.That(firstActualCustomerAddress.AddressLine3, Is.EqualTo(firstExpectedCustomerAddress.AddressLine3));
+            Assert.That(firstActualCustomerAddress.TownCity, Is.EqualTo(firstExpectedCustomerAddress.TownCity));
+            Assert.That(firstActualCustomerAddress.County, Is.EqualTo(firstExpectedCustomerAddress.County));
+            Assert.That(firstActualCustomerAddress.Postcode, Is.EqualTo(firstExpectedCustomerAddress.Postcode));
+            Assert.That(firstActualCustomerAddress.CountryId, Is.EqualTo(firstExpectedCustomerAddress.CountryId));
+            Assert.That(firstActualCustomerAddress.Country, Is.EqualTo(firstExpectedCustomerAddress.Country));
+        });
     }
 
     [Test]

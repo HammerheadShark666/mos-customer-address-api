@@ -73,10 +73,6 @@ public class GetCustomerAddressMediatrTests
             Country = country
         };
 
-        //customerAddressRepositoryMock
-        //        .Setup(x => x.ExistsAsync(id))
-        //        .Returns(Task.FromResult(true));
-
         customerAddressRepositoryMock
                 .Setup(x => x.ByIdAsync(customerId, id))
                 .Returns(Task.FromResult(customerAddress));

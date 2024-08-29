@@ -107,6 +107,59 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "{{customer_address_url}}/{version}/customer-address/update",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "}); \r",
+                  " \r",
+                  "pm.test('Schema validation', () => {\r",
+                  "    pm.response.to.have.jsonSchema (JSON.parse(pm.environment.get(\"update_customer_address_schema\")));\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"Id\":\"aed1a7cb-0d99-4642-882d-d3cb169035d4\",\r\n    \"CustomerId\":\"6c84d0a3-0c0c-435f-9ae0-4de09247ee15\",\r\n    \"AddressLine1\": \"Intergration_Test4\",\r\n    \"AddressLine2\": \"Intergration_Test4\",\r\n    \"AddressLine3\": \"Intergration_Test4\",\r\n    \"TownCity\": \"Intergration_Test4\",\r\n    \"County\": \"Intergration_Test4\",\r\n    \"Postcode\": \"HD6 TRF4\",\r\n    \"CountryId\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://{{customer_address_url}}/v1/customer-address/update",
+              "protocol": "https",
+              "host": [
+                "{{customer_address_url}}"
+              ],
+              "path": [
+                "v1",
+                "customer-address",
+                "update"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     }
