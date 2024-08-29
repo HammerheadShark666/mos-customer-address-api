@@ -5,12 +5,10 @@ namespace Microservice.Customer.Address.Api.MediatR.AddCustomerAddress;
 
 public class AddCustomerAddressValidator : AbstractValidator<AddCustomerAddressRequest>
 {
-    private readonly ICustomerAddressRepository _customerAddressRepository;
     private readonly ICountryRepository _countryRepository;
 
-    public AddCustomerAddressValidator(ICustomerAddressRepository customerAddressRepository, ICountryRepository countryRepository)
+    public AddCustomerAddressValidator(ICountryRepository countryRepository)
     {
-        _customerAddressRepository = customerAddressRepository;
         _countryRepository = countryRepository;
 
         RuleFor(address => address.AddressLine1)

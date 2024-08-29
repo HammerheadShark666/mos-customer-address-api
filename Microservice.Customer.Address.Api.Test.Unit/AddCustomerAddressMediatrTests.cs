@@ -14,22 +14,22 @@ namespace Microservice.Customer.Address.Api.Test.Unit;
 [TestFixture]
 public class AddCustomerAddressMediatrTests
 {
-    private Mock<ICustomerAddressRepository> customerAddressRepositoryMock = new();
-    private Mock<ICountryRepository> countryRepositoryMock = new();
-    private Mock<ICustomerAddressHttpAccessor> customerAddressHttpAccessorMock = new();
-    private ServiceCollection services = new();
+    private readonly Mock<ICustomerAddressRepository> customerAddressRepositoryMock = new();
+    private readonly Mock<ICountryRepository> countryRepositoryMock = new();
+    private readonly Mock<ICustomerAddressHttpAccessor> customerAddressHttpAccessorMock = new();
+    private readonly ServiceCollection services = new();
     private ServiceProvider serviceProvider;
     private IMediator mediator;
     private Guid customerAddressId;
 
-    private string addressLine1 = "AddressLine1";
-    private string addressLine2 = "AddressLine2";
-    private string addressLine3 = "AddressLine3";
-    private string townCity = "TownCity";
-    private string county = "County";
-    private string postcode = "Postcode";
-    private int countryId = 1;
-    private Country country = new() { Id = 1, Name = "England" };
+    private readonly string addressLine1 = "AddressLine1";
+    private readonly string addressLine2 = "AddressLine2";
+    private readonly string addressLine3 = "AddressLine3";
+    private readonly string townCity = "TownCity";
+    private readonly string county = "County";
+    private readonly string postcode = "Postcode";
+    private readonly int countryId = 1;
+    private readonly Country country = new() { Id = 1, Name = "England" };
 
     [OneTimeSetUp]
     public void OneTimeSetup()

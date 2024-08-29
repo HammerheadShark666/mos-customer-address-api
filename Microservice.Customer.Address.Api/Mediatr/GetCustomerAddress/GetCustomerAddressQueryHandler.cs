@@ -9,19 +9,15 @@ public class GetCustomerAddressQueryHandler(ICustomerAddressRepository customerA
                                             ILogger<GetCustomerAddressQueryHandler> logger,
                                             IMapper mapper) : IRequestHandler<GetCustomerAddressRequest, GetCustomerAddressResponse>
 {
-    private ICustomerAddressRepository _customerAddressRepository { get; set; } = customerAddressRepository;
-    private IMapper _mapper { get; set; } = mapper;
-    private ILogger<GetCustomerAddressQueryHandler> _logger { get; set; } = logger;
-
     public async Task<GetCustomerAddressResponse> Handle(GetCustomerAddressRequest getCustomerAddressRequest, CancellationToken cancellationToken)
     {
-        var customerAddress = await _customerAddressRepository.ByIdAsync(getCustomerAddressRequest.CustomerId, getCustomerAddressRequest.Id);
+        var customerAddress = await customerAddressRepository.ByIdAsync(getCustomerAddressRequest.CustomerId, getCustomerAddressRequest.Id);
         if (customerAddress == null)
         {
-            _logger.LogError($"Customer address not found - {getCustomerAddressRequest.Id}");
+            logger.LogError("Customer address not found - {getCustomerAddressRequest.Id}", getCustomerAddressRequest.Id);
             throw new NotFoundException("Customer address not found.");
         }
 
-        return _mapper.Map<GetCustomerAddressResponse>(customerAddress);
+        return mapper.Map<GetCustomerAddressResponse>(customerAddress);
     }
 }

@@ -9,22 +9,18 @@ public class AddCustomerAddressCommandHandler(ICustomerAddressRepository custome
                                               IMapper mapper,
                                               ICustomerAddressHttpAccessor customerAddressHttpAccessor) : IRequestHandler<AddCustomerAddressRequest, AddCustomerAddressResponse>
 {
-    private ICustomerAddressRepository _customerAddressRepository { get; set; } = customerAddressRepository;
-    private IMapper _mapper { get; set; } = mapper;
-    private ICustomerAddressHttpAccessor _customerAddressHttpAccessor { get; set; } = customerAddressHttpAccessor;
-
     public async Task<AddCustomerAddressResponse> Handle(AddCustomerAddressRequest addCustomerAddressRequest, CancellationToken cancellationToken)
     {
-        var customerAddress = await _customerAddressRepository.AddAsync(GetCustomerAddress(addCustomerAddressRequest));
+        var customerAddress = await customerAddressRepository.AddAsync(GetCustomerAddress(addCustomerAddressRequest));
         return new AddCustomerAddressResponse(customerAddress.Id);
     }
 
     private Domain.CustomerAddress GetCustomerAddress(AddCustomerAddressRequest addCustomerAddressRequest)
     {
-        var customerAddress = _mapper.Map<Domain.CustomerAddress>(addCustomerAddressRequest);
+        var customerAddress = mapper.Map<Domain.CustomerAddress>(addCustomerAddressRequest);
 
         customerAddress.Id = Guid.NewGuid();
-        customerAddress.CustomerId = _customerAddressHttpAccessor.CustomerId;
+        customerAddress.CustomerId = customerAddressHttpAccessor.CustomerId;
 
         return customerAddress;
     }

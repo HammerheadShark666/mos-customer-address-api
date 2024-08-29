@@ -1,7 +1,7 @@
 ﻿using Asp.Versioning;
 using FluentValidation;
 using MediatR;
-using Microservice.Customer.Address.Api.Data.Contexts;
+using Microservice.Customer.Address.Api.Data.Context;
 using Microservice.Customer.Address.Api.Data.Repository;
 using Microservice.Customer.Address.Api.Data.Repository.Interfaces;
 using Microservice.Customer.Address.Api.Helpers;
@@ -9,7 +9,6 @@ using Microservice.Customer.Address.Api.Helpers.Interfaces;
 using Microservice.Customer.Address.Api.Helpers.Swagger;
 using Microservice.Customer.Address.Api.MediatR.AddCustomerAddress;
 using Microservice.Customer.Address.Api.Middleware;
-using Microservice.Customer.Address.Data.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
