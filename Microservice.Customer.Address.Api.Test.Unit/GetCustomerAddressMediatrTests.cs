@@ -1,4 +1,3 @@
-using FluentValidation;
 using MediatR;
 using Microservice.Customer.Address.Api.Data.Repository.Interfaces;
 using Microservice.Customer.Address.Api.Domain;
@@ -26,7 +25,6 @@ public class GetCustomerAddressMediatrTests
     [OneTimeSetUp]
     public void OneTimeSetup()
     {
-        services.AddValidatorsFromAssemblyContaining<GetCustomerAddressValidator>();
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(GetCustomerAddressQueryHandler).Assembly));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
         services.AddScoped<ICustomerAddressRepository>(sp => customerAddressRepositoryMock.Object);

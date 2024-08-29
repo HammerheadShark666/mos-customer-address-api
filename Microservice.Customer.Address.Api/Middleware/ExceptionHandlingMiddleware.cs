@@ -8,12 +8,8 @@ using static Microservice.Customer.Address.Api.Helpers.Enums;
 
 namespace Microservice.Customer.Address.Api.Middleware;
 
-internal sealed class ExceptionHandlingMiddleware : IMiddleware
+internal sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> logger) : IMiddleware
 {
-    private readonly ILogger<ExceptionHandlingMiddleware> _logger;
-
-    public ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> logger) => _logger = logger;
-
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         try
@@ -22,12 +18,12 @@ internal sealed class ExceptionHandlingMiddleware : IMiddleware
         }
         catch (Exception e)
         {
-            _logger.LogError(e, e.Message);
+            logger.LogError(e, "Error: {e.Message}", e.Message);
             await HandleExceptionAsync(context, e);
         }
     }
 
-    private Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private static Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
         var exceptionResults = GetExceptionResults(exception);
 
@@ -66,9 +62,9 @@ internal sealed class ExceptionHandlingMiddleware : IMiddleware
 
         switch (exception)
         {
-            case BadRequestException badRequestException:
-            case ArgumentException argumentException:
-            case EnvironmentVariableNotFoundException environmentVariableNotFoundException:
+            case BadRequestException:
+            case ArgumentException:
+            case EnvironmentVariableNotFoundException:
                 break;
             case FluentValidation.ValidationException validationException:
                 errorMessages = JsonSerializer.Serialize(GetValidationErrors(validationException.Errors));
