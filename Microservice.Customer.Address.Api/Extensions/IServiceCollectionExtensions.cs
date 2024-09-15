@@ -5,10 +5,13 @@ using Microservice.Customer.Address.Api.Data.Context;
 using Microservice.Customer.Address.Api.Data.Repository;
 using Microservice.Customer.Address.Api.Data.Repository.Interfaces;
 using Microservice.Customer.Address.Api.Helpers;
+using Microservice.Customer.Address.Api.Helpers.Exceptions;
 using Microservice.Customer.Address.Api.Helpers.Interfaces;
+using Microservice.Customer.Address.Api.Helpers.Providers;
 using Microservice.Customer.Address.Api.Helpers.Swagger;
 using Microservice.Customer.Address.Api.MediatR.AddCustomerAddress;
 using Microservice.Customer.Address.Api.Middleware;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -42,11 +45,22 @@ public static class IServiceCollectionExtensions
         services.AddScoped<ICustomerAddressRepository, CustomerAddressRepository>();
     }
 
-    public static void ConfigureDatabaseContext(this IServiceCollection services, ConfigurationManager configuration)
+    public static void ConfigureSqlServer(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
     {
-        services.AddDbContextFactory<CustomerAddressDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString(Constants.DatabaseConnectionString),
-            options => options.EnableRetryOnFailure()));
+        if (environment.IsProduction())
+        {
+            var connectionString = configuration.GetConnectionString(Constants.AzureDatabaseConnectionString)
+                    ?? throw new DatabaseConnectionStringNotFound("Production database connection string not found.");
+
+            AddDbContextFactory(services, SqlAuthenticationMethod.ActiveDirectoryManagedIdentity, new ProductionAzureSQLProvider(), connectionString);
+        }
+        else if (environment.IsDevelopment())
+        {
+            var connectionString = configuration.GetConnectionString(Constants.LocalDatabaseConnectionString)
+                    ?? throw new DatabaseConnectionStringNotFound("Development database connection string not found.");
+
+            AddDbContextFactory(services, SqlAuthenticationMethod.ActiveDirectoryServicePrincipal, new DevelopmentAzureSQLProvider(), connectionString);
+        }
     }
 
     public static void ConfigureMediatr(this IServiceCollection services)
@@ -80,6 +94,18 @@ public static class IServiceCollectionExtensions
         {
             options.OperationFilter<SwaggerDefaultValues>();
             options.SupportNonNullableReferenceTypes();
+        });
+    }
+
+    private static void AddDbContextFactory(IServiceCollection services, SqlAuthenticationMethod sqlAuthenticationMethod, SqlAuthenticationProvider sqlAuthenticationProvider, string connectionString)
+    {
+        services.AddDbContextFactory<CustomerAddressDbContext>(options =>
+        {
+            SqlAuthenticationProvider.SetProvider(
+                    sqlAuthenticationMethod,
+                    sqlAuthenticationProvider);
+            var sqlConnection = new SqlConnection(connectionString);
+            options.UseSqlServer(sqlConnection);
         });
     }
 }
